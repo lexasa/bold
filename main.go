@@ -29,17 +29,33 @@ func main() {
 
 	for i := 1; i < 10; i++ {
 		vt.TagID++
-		vt.Store(db)
+		//vt.Store(db)
 	}
 
 	elapsed := time.Since(start)
 	log.Print(elapsed / 10)
 
 	zt, err := GetTagByID(db, vt.TagID)
-
-	log.Print(vt)
 	log.Print(zt,err)
 
+	g := GeoJSON{
+		GeoID:1,
+		TagID:1,
+		Action:"d",
+		Country:"CA",
+	}
+
+	g.Add(db, vt)
+
+	zt, err = GetTagByID(db, vt.TagID)
+	log.Print(zt,err)
+
+	g.Remove(db, vt)
+
+	zt, err = GetTagByID(db, vt.TagID)
+	log.Print(zt,err)
+
+/*
 	// account
 
 	a := AccountJSON{
@@ -93,5 +109,5 @@ func main() {
 	zds, err := GetDomainsetByID(db, vds.DomainsetID)
 	log.Print(vds)
 	log.Print(zds,err)
-
+*/
 }
